@@ -107,7 +107,10 @@ function validatePassword(password) {
           Login
         </button>
         <p id="error-message">{errorMessage}</p>
-        <a href="#" id="forgotPassword">
+        <a
+  href="mailto:support@smartserv.io?subject=Password%20Reset&body=Please%20reset%20my%20password."
+  id="forgotPassword"
+>
           Forgot your password?
         </a>
       </form>

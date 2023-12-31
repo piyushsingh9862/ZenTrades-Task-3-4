@@ -40,6 +40,13 @@ function validateEmail(email) {
 
 function validatePassword(password) {
 
+  if (password === 'SmartServTest@123') {
+  
+    window.location.href = 'dashboard.html';
+  } else {
+    setErrorMessage('Incorrect password');
+  }
+
 
 
   var hasUpperCase = false;

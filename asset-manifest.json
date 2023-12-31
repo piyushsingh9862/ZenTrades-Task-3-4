@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/ZenTrades-Task-3-4/static/css/main.0426b193.css",
+    "main.js": "/ZenTrades-Task-3-4/static/js/main.9def808a.js",
+    "index.html": "/ZenTrades-Task-3-4/index.html",
+    "main.0426b193.css.map": "/ZenTrades-Task-3-4/static/css/main.0426b193.css.map",
+    "main.9def808a.js.map": "/ZenTrades-Task-3-4/static/js/main.9def808a.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.0426b193.css",
+    "static/js/main.9def808a.js"
+  ]
+}

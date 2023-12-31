@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0px;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .dashboard {
+            margin: 20px 20px;
+        }
+
+        .box-value {
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+
+        .box-name {
+            font-size: 17px;
+        }
+
+        #profit {
+            color: #4abd9c;
+        }
+
+        #loss {
+            color: red;
+        }
+
+        .boxes {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .metric-box {
+            width: 300px;
+            padding: 10px 10px;
+            background-color: #fff;
+            margin: 10px;
+            border-left: 9px solid #4abd9c;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .heading {
+            font-size: 1.2em;
+            font-weight: bold;
+            padding: 0px 10px;
+            margin-bottom: 10px;
+        }
+
+        .chartMenu {
+            width: 100vw;
+            height: 40px;
+            background: #1A1A1A;
+            color: rgba(54, 162, 235, 1);
+        }
+
+        .chartMenu p {
+            padding: 10px;
+            font-size: 20px;
+        }
+
+        .chartCard {
+            width: 100vw;
+            height: calc(65vh - 40px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .chartBox {
+            width: 600px;
+            margin: 10px;
+            padding: 30px;
+            background: white;
+        }
+        .scroll-box {
+            height: 500px;
+            max-height: 250px;
+            overflow-y: scroll;
+        }
+
+        .hidden-box {
+            height: 50px;
+        }
+
+        .scrollBoxBody1 {
+            height: 250px;
+        }
+        
+        .scrollBoxBody2 {
+            height: 250px;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Metric Boxes -->
+        <div class="heading">
+            Company Metrics
+        </div>
+        <div class="boxes">
+            <div class="metric-box">
+                <div class="box-value" id="profit">$406,411.29</div>
+                <div class="box-name">Total Revenue</div>
+            </div>
+            <div class="metric-box">
+                <div class="box-value">$620</div>
+                <div class="box-name">Total Jobs Avg</div>
+            </div>
+            <div class="metric-box">
+                <div class="box-value">655</div>
+                <div class="box-name">Tickets Created</div>
+            </div>
+            <div class="metric-box">
+                <div class="box-value">735</div>
+                <div class="box-name">Tickets Scheduled</div>
+            </div>
+            <div class="metric-box">
+                <div class="box-value" id="loss">$110,448.8</div>
+                <div class="box-name">Outstanding Amount</div>
+            </div>
+            <div class="metric-box">
+                <div class="box-value">105</div>
+                <div class="box-name">Memberships Sold</div>
+            </div>
+            <div class="metric-box">
+                <div class="box-value">436</div>
+                <div class="box-name">Jobs Completed</div>
+            </div>
+            <div class="metric-box">
+                <div class="box-value">65</div>
+                <div class="box-name">Total Cancelled</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scrollable Bar Graphs -->
+    <div class="chartCard">
+        <div class="dashboard">
+            <div class="heading">
+                Revenue by Job Location
+            </div>
+            <div class="chartBox">
+            <div class="scroll-box">
+                <div class="scrollBoxBody1">
+                <canvas id="myChart1"></canvas>
+                </div>
+            </div>
+            <div class="hidden-box">
+                <canvas id="myChart2"></canvas>
+            </div>
+            </div>
+        </div>
+        <div class="dashboard">
+            <div class="heading">
+                Revenue by Job Type
+            </div>
+            <div class="chartBox">
+                <div class="scroll-box">
+                <div class="scrollBoxBody2">
+                    <canvas id="myChart3"></canvas>
+                </div>
+                </div>
+                <div class="hidden-box">
+                <canvas id="myChart4"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js/dist/chart.umd.min.js"></script>
+    <script>
+        // setup1
+        const labels1 = ['Everett', 'Seattle', 'Lynnwood', 'Bothell', 'Mukilteo', 'Edmonds', 'California']
+        const values1 = [100000, 90000, 49000, 42000, 41000, 34000, 70000]
+        const data1 = {
+            labels: labels1,
+        datasets: [{
+            label: 'Weekly Sales',
+            data: values1,
+            backgroundColor: Array(labels1.length).fill('#4abd9c'),
+            borderWidth: 1
+        }]
+        };
+
+        // config 
+        const config1 = {
+        type: 'bar',
+        data: data1,
+        options: {
+            plugins: {
+                legend: {
+                    display: false,
+                }
+            },
+            maintainAspectRatio: false,
+            layout: {
+                padding: {
+                    right: 9.5
+                }
+            },
+            indexAxis: 'y',
+            scales: {
+                x: {
+                    beginAtZero: true,
+                    grid: {
+                        drawTicks: false,
+                        drawBorder: false
+                    },
+                    ticks: {
+                        display: false
+                    }
+                },
+                y: {
+                    grid: {
+                        display: false,
+                        drawTicks: false,
+                    }
+                }
+            }
+        }
+        };
+
+        // render init block
+        const myChart1 = new Chart(
+            document.getElementById('myChart1'),
+            config1
+        );
+
+        // setup2 
+        const data2 = {
+        datasets: [{
+            label: 'Weekly Sales',
+            data: values1
+        }]
+        };
+
+        // config 
+        const config2 = {
+        type: 'bar',
+        data: data2,
+        options: {
+            maintainAspectRatio: false,
+            indexAxis: 'y',
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: "Revenue for November 2019",
+                    },
+                    beginAtZero: true,
+                    afterFit: ((context) => {
+                        context.height += 30;
+                    })
+                },
+                y: {
+                    afterFit: ((context) => {
+                        context.width += myChart1.chartArea.left
+                    }),
+                    grid: {
+                        drawTicks: false
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false,
+                }
+            }
+        }
+        };
+
+        // render init block
+        const myChart2 = new Chart(
+            document.getElementById('myChart2'),
+            config2
+        );
+
+        // setup3
+        const labels3 = ['Everett', 'Seattle', 'Lynnwood', 'Bothell', 'Mukilteo', 'Edmonds', 'California']
+        const values3 = [100000, 90000, 49000, 42000, 41000, 34000, 70000]
+        const data3 = {
+        labels: labels3,
+        datasets: [{
+            label: 'Weekly Sales',
+            data: values3,
+            backgroundColor: Array(labels1.length).fill('#4abd9c'),
+            borderWidth: 1
+        }]
+        };
+
+        // config 
+        const config3 = {
+        type: 'bar',
+        data: data3,
+        options: {
+            plugins: {
+                legend: {
+                    display: false,
+                }
+            },
+            maintainAspectRatio: false,
+            layout: {
+                padding: {
+                    right: 9.5
+                }
+            },
+            indexAxis: 'y',
+            scales: {
+                x: {
+                    beginAtZero: true,
+                    grid: {
+                        drawTicks: false,
+                        drawBorder: false
+                    },
+                    ticks: {
+                        display: false
+                    }
+                },
+                y: {
+                    grid: {
+                        display: false,
+                        drawTicks: false,
+                    }
+                }
+            }
+        }
+        };
+
+        // render init block
+        const myChart3 = new Chart(
+            document.getElementById('myChart3'),
+            config3
+        );
+
+        // setup4
+        const data4 = {
+        datasets: [{
+            label: 'Weekly Sales',
+            data: values3
+        }]
+        };
+
+        // config 
+        const config4 = {
+        type: 'bar',
+        data: data4,
+        options: {
+            maintainAspectRatio: false,
+            indexAxis: 'y',
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: "Revenue for November 2019"
+                    },
+                    beginAtZero: true,
+                    afterFit: ((context) => {
+                        context.height += 30;
+                    })
+                },
+                y: {
+                    afterFit: ((context) => {
+                        context.width += myChart1.chartArea.left
+                    }),
+                    grid: {
+                        drawTicks: false
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false
+                }
+            }
+        }
+        };
+
+        // render init block
+        const myChart4 = new Chart(
+            document.getElementById('myChart4'),
+            config4
+        );
+
+        const scrollBoxBody1 = document.querySelector('.scrollBoxBody1')
+        const scrollBoxBody2 = document.querySelector('.scrollBoxBody2')
+        if (myChart1.data.labels.length > 6) {
+            const newHeight = 300 + ((myChart1.data.labels.length - 7) * 20)
+            scrollBoxBody1.style.height = `${newHeight}px`
+        }
+        if (myChart3.data.labels.length > 6) {
+            const newHeight = 300 + ((myChart3.data.labels.length - 7) * 20)
+            scrollBoxBody2.style.height = `${newHeight}px`
+        }
+    </script>
+</body>
+</html>
